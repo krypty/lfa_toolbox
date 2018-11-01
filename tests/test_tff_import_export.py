@@ -1,6 +1,6 @@
 import numpy as np
 
-from pyfuge.trefle.tffconverter import TffConverter
+from lfa_toolbox.trefle.tffconverter import TffConverter
 from tests.fixture.trefle_classifier_test import (
     get_sample_data,
     get_trefle_classifier_instance,
