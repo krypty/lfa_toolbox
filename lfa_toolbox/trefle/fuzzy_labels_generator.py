@@ -32,6 +32,6 @@ def generate_labels(n_labels):
     if n_labels < 2:
         raise ValueError("cannot generate less than 2 labels")
     if n_labels == 2:
-        return ("low", "high")
+        return "low", "high"
     else:
         return _generate_more_than_two_labels(n_labels)
