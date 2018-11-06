@@ -6,7 +6,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 setup(
     name="lfa_toolbox",
-    version="0.1.1",
+    version="0.1.2",
     description="LFA Toolbox is an educational library to play with fuzzy systems",
     author="Gary Marigliano",
     url="http://iict-space.heig-vd.ch/cpn/",
