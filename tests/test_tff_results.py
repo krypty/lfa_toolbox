@@ -1,9 +1,6 @@
 import numpy as np
 
-from tests.fixture.trefle_classifier_test import (
-    get_trefle_classifier_instance,
-    get_sample_data,
-)
+from tests.pytest_skip_trefle_tests import run_if_trefle_is_installed
 
 
 def legacy_predict(X_test, fis):
@@ -15,7 +12,13 @@ def legacy_predict(X_test, fis):
     return y_pred_legacy
 
 
+@run_if_trefle_is_installed
 def test_binary_problem_predictions_should_be_the_same_between_singleton_fis_and_trefle_fis():
+    from tests.fixture.trefle_classifier_fixture import (
+        get_trefle_classifier_instance,
+        get_sample_data,
+    )
+
     X_train, X_test, y_train, y_test = get_sample_data()
     clf = get_trefle_classifier_instance(X_train, X_test, y_train, y_test)
 

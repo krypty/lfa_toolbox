@@ -24,7 +24,7 @@ The install instructions can be found here [docs/INSTALL.md](docs/INSTALL.md).
 
 ### Examples
 
-A list of examples can be found here [pyfuge/fs/examples](pyfuge/fs/examples).
+A list of examples can be found here [pyfuge/fs/examples](lfa_toolbox/fs/examples).
 
 Here is a output example of the resort problem (available in the examples folder).
 
@@ -108,7 +108,7 @@ print("Score:")
 print(accuracy_score(y_test, preds))
 ```
 
-Other examples can be found in [pyfuge/evo/examples](pyfuge/evo/examples).
+Other examples can be found in [pyfuge/evo/examples](lfa_toolbox/evo/examples).
 
 # Deployment and Tests
 
