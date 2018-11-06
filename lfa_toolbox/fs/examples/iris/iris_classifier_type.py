@@ -11,20 +11,22 @@ from lfa_toolbox.fs.core.rules.default_fuzzy_rule import DefaultFuzzyRule
 from lfa_toolbox.fs.core.rules.fuzzy_rule import FuzzyRule
 from lfa_toolbox.fs.core.rules.fuzzy_rule_element import Antecedent, Consequent
 
+SETOSA = "setosa"
+VERSICOLOR = "versicolor"
+VIRGINICA = "virginica"
+
 """
 IRIS DATASET SOURCE: 
 https://archive.ics.uci.edu/ml/machine-learning-databases/iris/
 """
 
+IRIS_LABEL_PREFIX_LENGTH = len("Iris-")
+LABEL_COLUMN = 4
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 
 def main():
-    from time import time
-
-    t0 = time()
-
     # Build FIS from Fig 3.9 of Carlos Peña's book
     lv_sl = ThreePointsLV(name="SL", p1=4.65, p2=4.65, p3=5.81)
     lv_sw = ThreePointsLV(name="SW", p1=2.68, p2=3.74, p3=4.61)
@@ -32,9 +34,9 @@ def main():
     lv_pw = ThreePointsLV(name="PW", p1=0.39, p2=1.16, p3=2.03)
 
     yes_no = {"no": SingletonMF(0), "yes": SingletonMF(1)}
-    lv_setosa = LinguisticVariable(name="setosa", ling_values_dict=yes_no)
-    lv_virginica = LinguisticVariable(name="virginica", ling_values_dict=yes_no)
-    lv_versicolor = LinguisticVariable(name="versicolor", ling_values_dict=yes_no)
+    lv_setosa = LinguisticVariable(name=SETOSA, ling_values_dict=yes_no)
+    lv_virginica = LinguisticVariable(name=VIRGINICA, ling_values_dict=yes_no)
+    lv_versicolor = LinguisticVariable(name=VERSICOLOR, ling_values_dict=yes_no)
 
     r1 = FuzzyRule(
         ants=[Antecedent(lv_pw, "low")],
@@ -86,63 +88,58 @@ def main():
 
     fis = SingletonFIS(rules=rules, default_rule=dr)
 
-    # Read Iris dataset
-    iris_data_path = os.path.join(HERE, "iris.data")
-    iris_data = np.loadtxt(iris_data_path, delimiter=",", dtype="f8,f8,f8,f8,|U15")
-
-    def check_prediction(predicted, expected, counter):
-        if predicted == expected:
-            counter += 1
-        return counter
-
-    yolo_preds = []
+    iris_data = read_iris_dataset()
+    # iris_data = [iris_data[-1]]
 
     n_correct_pred = 0
     for idx, sample in enumerate(iris_data):
         predicted_out = fis.predict(
             {"SL": sample[0], "SW": sample[1], "PL": sample[2], "PW": sample[3]}
         )
-        # print("pred out", predicted_out)
 
-        preds = sorted(predicted_out.items(), key=lambda p: p[1], reverse=True)
-        print(preds)
+        predicted_out = [(k, v) for k, v in predicted_out.items()]
+        predicted_out = sorted(predicted_out, key=lambda x: x[0])
 
-        # setosa, versi, virgi
-        yoloyolo = sorted(predicted_out.items(), key=lambda p: p[0], reverse=False)
-
-        a = [yoloyolo[0][1], yoloyolo[1][1], yoloyolo[2][1]]
-        print(a)
-        print("-" * 10)
-        yolo_preds.append(a)
+        predicted_sample = max(predicted_out, key=lambda x: x[1])
+        predicted_sample_label = predicted_sample[0]
+        predicted_sample_value = predicted_sample[1]
 
         # the max pred must reach at least 0.5 to be considered as a the true
-        #  predicted output
-        if preds[0][1] < 0.5:
+        # predicted output
+        if predicted_sample_value < 0.5:
             continue
 
-        # e.g. "Iris-versicolor" --> "versicolor"
-        expected_out_str = sample[4][5:]
+        expected_sample_label = get_sample_expected_label(sample)
+        predicted_sample_label = predicted_sample_label
 
-        predicted_out_str = preds[0][0]
-
-        n_correct_pred = check_prediction(
-            predicted_out_str, expected_out_str, n_correct_pred
-        )
-
-        # print("[{}] expected {}, predicted {}".format(idx, expected_out_str,
-        #                                               predicted_out_str))
-
-    print((time() - t0) * 1000, "ms")
+        if are_outputs_equal(predicted_sample_label, expected_sample_label):
+            n_correct_pred += 1
 
     print("pred OK: {}, total pred: {}".format(n_correct_pred, len(iris_data)))
+    # FISViewer(fis).show()
     assert n_correct_pred == 149, (
         "The book says this FIS must predict " "correctly 149 cases "
     )
 
-    np.savetxt("/tmp/pyfuge_original.csv", np.array(yolo_preds), delimiter=";")
+
+def read_iris_dataset():
+    iris_data_path = os.path.join(HERE, "iris.data")
+    iris_data = np.loadtxt(iris_data_path, delimiter=",", dtype="f8,f8,f8,f8,|U15")
+    return iris_data
+
+
+def are_outputs_equal(predicted, expected):
+    return predicted == expected
+
+
+def get_sample_expected_label(sample):
+    label = sample[LABEL_COLUMN]
+    return remove_iris_dash_prefix(label)
+
+
+def remove_iris_dash_prefix(label):
+    return label[IRIS_LABEL_PREFIX_LENGTH:]
 
 
 if __name__ == "__main__":
     main()
-    # import cProfile
-    # cProfile.run("main()")
