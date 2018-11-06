@@ -1,22 +1,23 @@
+import os
+
 import numpy as np
 
 from lfa_toolbox.fs.core.fis.fis import MIN, AND_min
 from lfa_toolbox.fs.core.fis.singleton_fis import SingletonFIS
-from lfa_toolbox.fs.core.lv.linguistic_variable import \
-    LinguisticVariable
-from lfa_toolbox.fs.core.lv.three_points_lv import \
-    ThreePointsLV
-from lfa_toolbox.fs.core.mf.singleton_mf import \
-    SingletonMF
+from lfa_toolbox.fs.core.lv.linguistic_variable import LinguisticVariable
+from lfa_toolbox.fs.core.lv.three_points_lv import ThreePointsLV
+from lfa_toolbox.fs.core.mf.singleton_mf import SingletonMF
 from lfa_toolbox.fs.core.rules.default_fuzzy_rule import DefaultFuzzyRule
 from lfa_toolbox.fs.core.rules.fuzzy_rule import FuzzyRule
-from lfa_toolbox.fs.core.rules.fuzzy_rule_element import Antecedent, \
-    Consequent
+from lfa_toolbox.fs.core.rules.fuzzy_rule_element import Antecedent, Consequent
 
 """
 IRIS DATASET SOURCE: 
 https://archive.ics.uci.edu/ml/machine-learning-databases/iris/
 """
+
+
+HERE = os.path.dirname(os.path.abspath(__file__))
 
 
 def main():
@@ -30,14 +31,10 @@ def main():
     lv_pl = ThreePointsLV(name="PL", p1=4.68, p2=5.26, p3=6.03)
     lv_pw = ThreePointsLV(name="PW", p1=0.39, p2=1.16, p3=2.03)
 
-    yes_no = {
-        "no": SingletonMF(0),
-        "yes": SingletonMF(1)
-    }
+    yes_no = {"no": SingletonMF(0), "yes": SingletonMF(1)}
     lv_setosa = LinguisticVariable(name="setosa", ling_values_dict=yes_no)
     lv_virginica = LinguisticVariable(name="virginica", ling_values_dict=yes_no)
-    lv_versicolor = LinguisticVariable(name="versicolor",
-                                       ling_values_dict=yes_no)
+    lv_versicolor = LinguisticVariable(name="versicolor", ling_values_dict=yes_no)
 
     r1 = FuzzyRule(
         ants=[Antecedent(lv_pw, "low")],
@@ -47,21 +44,18 @@ def main():
             Consequent(lv_versicolor, "no"),
             Consequent(lv_virginica, "no"),
         ],
-        impl_func=MIN
+        impl_func=MIN,
     )
 
     r2 = FuzzyRule(
-        ants=[
-            Antecedent(lv_pl, "low"),
-            Antecedent(lv_pw, "medium")
-        ],
+        ants=[Antecedent(lv_pl, "low"), Antecedent(lv_pw, "medium")],
         ant_act_func=AND_min,
         cons=[
             Consequent(lv_setosa, "no"),
             Consequent(lv_versicolor, "yes"),
             Consequent(lv_virginica, "no"),
         ],
-        impl_func=MIN
+        impl_func=MIN,
     )
 
     r3 = FuzzyRule(
@@ -77,7 +71,7 @@ def main():
             Consequent(lv_versicolor, "yes"),
             Consequent(lv_virginica, "no"),
         ],
-        impl_func=MIN
+        impl_func=MIN,
     )
 
     rules = [r1, r2, r3]
@@ -87,14 +81,14 @@ def main():
             Consequent(lv_versicolor, "no"),
             Consequent(lv_virginica, "yes"),
         ],
-        impl_func=MIN
+        impl_func=MIN,
     )
 
     fis = SingletonFIS(rules=rules, default_rule=dr)
 
     # Read Iris dataset
-    iris_data = np.loadtxt(r'../../../datasets/iris.data', delimiter=",",
-                           dtype="f8,f8,f8,f8,|U15")
+    iris_data_path = os.path.join(HERE, "iris.data")
+    iris_data = np.loadtxt(iris_data_path, delimiter=",", dtype="f8,f8,f8,f8,|U15")
 
     def check_prediction(predicted, expected, counter):
         if predicted == expected:
@@ -105,20 +99,16 @@ def main():
 
     n_correct_pred = 0
     for idx, sample in enumerate(iris_data):
-        predicted_out = fis.predict({
-            "SL": sample[0],
-            "SW": sample[1],
-            "PL": sample[2],
-            "PW": sample[3]
-        })
+        predicted_out = fis.predict(
+            {"SL": sample[0], "SW": sample[1], "PL": sample[2], "PW": sample[3]}
+        )
         # print("pred out", predicted_out)
 
         preds = sorted(predicted_out.items(), key=lambda p: p[1], reverse=True)
         print(preds)
 
         # setosa, versi, virgi
-        yoloyolo = sorted(predicted_out.items(), key=lambda p: p[0],
-                          reverse=False)
+        yoloyolo = sorted(predicted_out.items(), key=lambda p: p[0], reverse=False)
 
         a = [yoloyolo[0][1], yoloyolo[1][1], yoloyolo[2][1]]
         print(a)
@@ -135,8 +125,9 @@ def main():
 
         predicted_out_str = preds[0][0]
 
-        n_correct_pred = check_prediction(predicted_out_str, expected_out_str,
-                                          n_correct_pred)
+        n_correct_pred = check_prediction(
+            predicted_out_str, expected_out_str, n_correct_pred
+        )
 
         # print("[{}] expected {}, predicted {}".format(idx, expected_out_str,
         #                                               predicted_out_str))
@@ -144,13 +135,14 @@ def main():
     print((time() - t0) * 1000, "ms")
 
     print("pred OK: {}, total pred: {}".format(n_correct_pred, len(iris_data)))
-    assert n_correct_pred == 149, "The book says this FIS must predict " \
-                                  "correctly 149 cases "
+    assert n_correct_pred == 149, (
+        "The book says this FIS must predict " "correctly 149 cases "
+    )
 
     np.savetxt("/tmp/pyfuge_original.csv", np.array(yolo_preds), delimiter=";")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
     # import cProfile
     # cProfile.run("main()")

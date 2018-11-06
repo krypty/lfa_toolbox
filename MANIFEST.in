@@ -1,2 +1,2 @@
 include *.md
-include pyfuge/datasets/*
+include lfa_toolbox/fs/examples/iris/iris.data
