@@ -45,22 +45,21 @@ class SingletonFIS(FIS):
     def _aggregate(self, rules_implicated_cons):
         aggregated_consequents = {}
 
-        rules_impl_cons_it = enumerate(rules_implicated_cons.items())
-        for index, (out_v_name, out_v_mf) in rules_impl_cons_it:
-
+        for out_v_name, out_v_mf in rules_implicated_cons.items():
             numerator = 0
             denominator = 0
+
             for i, rule in enumerate(chain(self._rules, [self._default_rule])):
+                cons = self._get_consequent_from_out_var_name(rule, out_v_name)
+
                 # TODO: refactor this to better handle default rule
                 if rule is None:  # happen if default rule is not set.
                     continue
 
                 cons_implicated_value = out_v_mf[i].mf_values[0]
-                label = rule.consequents[index].lv_value
+                label = cons.lv_value
 
-                rule_act_value = (
-                    rule.consequents[index].lv_name.ling_values[label].in_values[0]
-                )
+                rule_act_value = cons.lv_name.ling_values[label].in_values[0]
 
                 numerator += cons_implicated_value * rule_act_value
                 denominator += cons_implicated_value
@@ -77,3 +76,9 @@ class SingletonFIS(FIS):
             k: v.in_values[0] for k, v in self._aggregated_consequents.items()
         }
         return self._defuzzified_outputs
+
+    @staticmethod
+    def _get_consequent_from_out_var_name(rule, out_v_name):
+        consequents_it = enumerate(rule.consequents)
+        index = [i for i, cons in consequents_it if cons.lv_name.name == out_v_name][0]
+        return rule.consequents[index]
