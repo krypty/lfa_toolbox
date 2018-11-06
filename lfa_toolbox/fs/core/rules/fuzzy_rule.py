@@ -2,18 +2,18 @@ from collections import defaultdict
 from copy import deepcopy
 from typing import Dict, List, Callable, Tuple
 
-from lfa_toolbox.fs.core.mf.free_shape_mf import \
-    FreeShapeMF
-from lfa_toolbox.fs.core.rules.fuzzy_rule_element import Antecedent, \
-    Consequent
+from lfa_toolbox.fs.core.mf.free_shape_mf import FreeShapeMF
+from lfa_toolbox.fs.core.rules.fuzzy_rule_element import Antecedent, Consequent
 
 
 class FuzzyRule:
-    def __init__(self,
-                 ants: List[Antecedent],
-                 ant_act_func: Tuple[Callable, str],
-                 cons: List[Consequent],
-                 impl_func: Tuple[Callable, str]):
+    def __init__(
+        self,
+        ants: List[Antecedent],
+        ant_act_func: Tuple[Callable, str],
+        cons: List[Consequent],
+        impl_func: Tuple[Callable, str],
+    ):
         """
         Define a fuzzy rule
 
@@ -112,13 +112,15 @@ class FuzzyRule:
             ling_value = con.lv_name[con.lv_value]
 
             in_values = deepcopy(ling_value.in_values)  # FIXME deepcopy needed?
-            mf_values = [impl_func([val, antecedents_activation]) for
-                         val in ling_value.mf_values]
+            mf_values = [
+                impl_func([val, antecedents_activation]) for val in ling_value.mf_values
+            ]
 
             # lv_name.name is the name of the linguistic variable, e.g.
             # "temperature"
             implicated_consequents[con.lv_name.name].append(
-                FreeShapeMF(in_values, mf_values))
+                FreeShapeMF(in_values, mf_values)
+            )
 
         return implicated_consequents
 
@@ -129,11 +131,11 @@ class FuzzyRule:
         text = "IF ({}), THEN ({})"
 
         ants_text = " {} ".format(self._ant_act_func[1]).join(
-            ["{} is {}".format(a.lv_name.name, a.lv_value) for a in
-             self.antecedents])
+            ["{} is {}".format(a.lv_name.name, a.lv_value) for a in self.antecedents]
+        )
 
         cons_text = " {} ".format(",").join(
-            ["{} is {}".format(c.lv_name.name, c.lv_value) for c in
-             self.consequents])
+            ["{} is {}".format(c.lv_name.name, c.lv_value) for c in self.consequents]
+        )
 
         return text.format(ants_text, cons_text)

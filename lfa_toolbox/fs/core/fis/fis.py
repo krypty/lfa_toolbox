@@ -4,8 +4,7 @@ from typing import List, Callable, Tuple
 
 import numpy as np
 
-from lfa_toolbox.fs.core.mf.free_shape_mf import \
-    FreeShapeMF
+from lfa_toolbox.fs.core.mf.free_shape_mf import FreeShapeMF
 from lfa_toolbox.fs.core.rules.default_fuzzy_rule import DefaultFuzzyRule
 from lfa_toolbox.fs.core.rules.fuzzy_rule import FuzzyRule
 
@@ -29,9 +28,13 @@ def must_use_predict_before(func):
 
 
 class FIS(metaclass=ABCMeta):
-    def __init__(self, aggr_func: Callable, defuzz_func: Tuple[Callable, str],
-                 rules: List[FuzzyRule],
-                 default_rule: DefaultFuzzyRule = None):
+    def __init__(
+        self,
+        aggr_func: Callable,
+        defuzz_func: Tuple[Callable, str],
+        rules: List[FuzzyRule],
+        default_rule: DefaultFuzzyRule = None,
+    ):
         """
         Create a Mamdani Fuzzy Inference System where aggregation function,
         defuzzification function, rules and default rule are defined by the
@@ -120,7 +123,6 @@ class FIS(metaclass=ABCMeta):
             max_ant_act = max(max_ant_act, antecedents_activation)
             implicated_consequents = r.implicate(antecedents_activation)
             # print(r)
-            # print("impl cons", implicated_consequents)
 
             for lv_name, lv_impl_mf in implicated_consequents.items():
                 rules_implicated_cons[lv_name].extend(lv_impl_mf)
@@ -153,8 +155,7 @@ class FIS(metaclass=ABCMeta):
         """
         aggregated_consequents = {}
         for out_v_name, out_v_mf in rules_implicated_cons.items():
-            aggregated_consequents[out_v_name] = self._aggregate_cons(
-                *out_v_mf)
+            aggregated_consequents[out_v_name] = self._aggregate_cons(*out_v_mf)
         return aggregated_consequents
 
     def _aggregate_cons(self, *out_var_mf):
@@ -179,8 +180,9 @@ class FIS(metaclass=ABCMeta):
             mf = self._aggr_func(fuzzified_x)
             aggregated_mf_values.append(mf)
 
-        return FreeShapeMF(in_values=aggregated_in_values,
-                           mf_values=aggregated_mf_values)
+        return FreeShapeMF(
+            in_values=aggregated_in_values, mf_values=aggregated_mf_values
+        )
 
     def _defuzzify(self):
         """
