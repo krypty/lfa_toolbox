@@ -1,22 +1,29 @@
+import os
+
 import numpy as np
 
 from lfa_toolbox.fs.core.fis.fis import MIN, AND_min
 from lfa_toolbox.fs.core.fis.singleton_fis import SingletonFIS
-from lfa_toolbox.fs.core.lv.linguistic_variable import \
-    LinguisticVariable
-from lfa_toolbox.fs.core.lv.three_points_lv import \
-    ThreePointsLV
-from lfa_toolbox.fs.core.mf.singleton_mf import \
-    SingletonMF
+from lfa_toolbox.fs.core.lv.linguistic_variable import LinguisticVariable
+from lfa_toolbox.fs.core.lv.three_points_lv import ThreePointsLV
+from lfa_toolbox.fs.core.mf.singleton_mf import SingletonMF
 from lfa_toolbox.fs.core.rules.default_fuzzy_rule import DefaultFuzzyRule
 from lfa_toolbox.fs.core.rules.fuzzy_rule import FuzzyRule
-from lfa_toolbox.fs.core.rules.fuzzy_rule_element import Antecedent, \
-    Consequent
+from lfa_toolbox.fs.core.rules.fuzzy_rule_element import Antecedent, Consequent
+
+SETOSA = "setosa"
+VERSICOLOR = "versicolor"
+VIRGINICA = "virginica"
+
+IRIS_LABEL_PREFIX_LENGTH = len("Iris-")
+LABEL_COLUMN = 4
 
 """
 IRIS DATASET SOURCE: 
 https://archive.ics.uci.edu/ml/machine-learning-databases/iris/
 """
+
+HERE = os.path.dirname(os.path.abspath(__file__))
 
 
 def main():
@@ -26,86 +33,81 @@ def main():
     lv_pl = ThreePointsLV(name="PL", p1=1.19, p2=1.77, p3=6.03)
     lv_pw = ThreePointsLV(name="PW", p1=1.55, p2=1.65, p3=1.74)
 
-    lv_output = LinguisticVariable(name="output", ling_values_dict={
-        "setosa": SingletonMF(1),
-        "versicolor": SingletonMF(2),
-        "virginica": SingletonMF(3)
-    })
+    lv_output = LinguisticVariable(
+        name="output",
+        ling_values_dict={
+            SETOSA: SingletonMF(1),
+            VERSICOLOR: SingletonMF(2),
+            VIRGINICA: SingletonMF(3),
+        },
+    )
 
     r1 = FuzzyRule(
         ants=[Antecedent(lv_pl, "high")],
         ant_act_func=AND_min,
-        cons=[
-            Consequent(lv_output, "virginica"),
-        ],
-        impl_func=MIN
+        cons=[Consequent(lv_output, VIRGINICA)],
+        impl_func=MIN,
     )
 
     r2 = FuzzyRule(
-        ants=[
-            Antecedent(lv_sw, "low"),
-            Antecedent(lv_pw, "high")
-        ],
+        ants=[Antecedent(lv_sw, "low"), Antecedent(lv_pw, "high")],
         ant_act_func=AND_min,
-        cons=[
-            Consequent(lv_output, "virginica"),
-        ],
-        impl_func=MIN
+        cons=[Consequent(lv_output, VIRGINICA)],
+        impl_func=MIN,
     )
 
     r3 = FuzzyRule(
-        ants=[
-            Antecedent(lv_sl, "medium"),
-            Antecedent(lv_pw, "medium")
-        ],
+        ants=[Antecedent(lv_sl, "medium"), Antecedent(lv_pw, "medium")],
         ant_act_func=AND_min,
-        cons=[
-            Consequent(lv_output, "setosa"),
-        ],
-        impl_func=MIN
+        cons=[Consequent(lv_output, SETOSA)],
+        impl_func=MIN,
     )
 
     rules = [r1, r2, r3]
-    dr = DefaultFuzzyRule(
-        cons=[
-            Consequent(lv_output, "setosa"),
-        ],
-        impl_func=MIN
-    )
+    dr = DefaultFuzzyRule(cons=[Consequent(lv_output, SETOSA)], impl_func=MIN)
 
     fis = SingletonFIS(rules=rules, default_rule=dr)
 
     # Read Iris dataset
-    iris_data = np.loadtxt(r'../../../datasets/iris.data', delimiter=",",
-                           dtype="f8,f8,f8,f8,|U15")
+    iris_data_path = os.path.join(HERE, "iris.data")
+    iris_data = np.loadtxt(iris_data_path, delimiter=",", dtype="f8,f8,f8,f8,|U15")
 
-    dict_output = {
-        "setosa": 1,
-        "versicolor": 2,
-        "virginica": 3
-    }
+    dict_output = {SETOSA: 1, VERSICOLOR: 2, VIRGINICA: 3}
 
     n_correct_pred = 0
     for idx, sample in enumerate(iris_data):
-        predicted_out = fis.predict({
-            "SL": sample[0],
-            "SW": sample[1],
-            "PL": sample[2],
-            "PW": sample[3]
-        })
+        predicted_out = fis.predict(
+            {"SL": sample[0], "SW": sample[1], "PL": sample[2], "PW": sample[3]}
+        )
 
-        expected_out_str = sample[4][5:]
+        expected_sample_label = get_sample_expected_label(sample)
 
-        print("predicted {}, expected {}".format(predicted_out["output"],
-                                                 dict_output[expected_out_str]))
-        out = int(predicted_out["output"] - dict_output[expected_out_str] + 0.5)
-        if out == 0:
+        pred_out_label = predicted_out["output"]
+        expected_out_label = dict_output[expected_sample_label]
+        print("predicted {}, expected {}".format(pred_out_label, expected_out_label))
+
+        if are_outputs_equal(pred_out_label, expected_out_label):
             n_correct_pred += 1
 
-    print(n_correct_pred, len(iris_data))
-    assert n_correct_pred == len(iris_data), "The book says this FIS make no " \
-                                             "misclassification "
+    print("Accuracy: {}".format(n_correct_pred / float(len(iris_data))))
+    assert n_correct_pred == len(
+        iris_data
+    ), "The book says this FIS make no misclassification"
 
 
-if __name__ == '__main__':
+def are_outputs_equal(pred_out, expected_out, tolerance=0.5):
+    out = int(pred_out - expected_out + tolerance)
+    return out == 0
+
+
+def get_sample_expected_label(sample):
+    label = sample[LABEL_COLUMN]
+    return remove_iris_dash_prefix(label)
+
+
+def remove_iris_dash_prefix(label):
+    return label[IRIS_LABEL_PREFIX_LENGTH:]
+
+
+if __name__ == "__main__":
     main()
