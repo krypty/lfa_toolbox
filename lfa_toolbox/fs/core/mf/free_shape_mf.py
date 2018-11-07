@@ -14,8 +14,8 @@ class FreeShapeMF:
         :param in_values:
         :param mf_values:
         """
-        assert len(in_values) == len(
-            mf_values), "Input and MF values are not the same length"
+        if not len(in_values) == len(mf_values):
+            raise ValueError("Input and MF values are not the same length")
 
         self._in_values = np.array(in_values)
         self._mf_values = np.array(mf_values)
@@ -31,17 +31,3 @@ class FreeShapeMF:
     @property
     def mf_values(self):
         return self._mf_values
-
-
-if __name__ == '__main__':
-    in_values = [x for x in range(10)]
-    mf = FreeShapeMF(
-        in_values=in_values,
-        mf_values=[x ** 2 for x in in_values]
-    )
-
-    # FIXME: this will now fail because this no more rounded but interpolated
-    assert mf.fuzzify(1.6) == 4
-    assert mf.fuzzify(3.2) == 9
-    assert mf.fuzzify(-1.6) == 0
-    assert mf.fuzzify(14566) == 81
