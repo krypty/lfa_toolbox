@@ -1,7 +1,6 @@
 import numpy as np
 
-from lfa_toolbox.fs.core.mf.free_shape_mf import \
-    FreeShapeMF
+from lfa_toolbox.fs.core.mf.free_shape_mf import FreeShapeMF
 
 
 def gen_line(p0, p1, n_points):
@@ -61,27 +60,3 @@ class LinPWMF(FreeShapeMF):
             mf_values.extend(ys)
 
         super(LinPWMF, self).__init__(in_values, mf_values)
-
-
-if __name__ == '__main__':
-    from lfa_toolbox.fs.view.mf_viewer import MembershipFunctionViewer
-
-    lin1 = LinPWMF([0, 0], [2, 1], [5, 1], [6, 0.5], [10, 0])
-    MembershipFunctionViewer(lin1).show()
-    x = abs(lin1.fuzzify(-133) - 0)
-    assert x < 1e-2, x
-
-    x = abs(lin1.fuzzify(1) - 0.50)
-    assert x < 1e-2, x
-
-    x = abs(lin1.fuzzify(3) - 1.0)
-    assert x < 1e-2, x
-
-    x = abs(lin1.fuzzify(6) - 0.5)
-    assert x < 1e-2, x
-
-    x = abs(lin1.fuzzify(8) - 0.25)
-    assert x < 1e-2, x
-
-    x = abs(lin1.fuzzify(120) - 0)
-    assert x < 1e-2, x
