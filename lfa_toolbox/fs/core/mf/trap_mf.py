@@ -1,5 +1,4 @@
-from lfa_toolbox.fs.core.mf.lin_piece_wise_mf import \
-    LinPWMF
+from lfa_toolbox.fs.core.mf.lin_piece_wise_mf import LinPWMF
 
 
 class TrapMF(LinPWMF):
