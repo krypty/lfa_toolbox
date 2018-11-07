@@ -1,4 +1,4 @@
-from lfa_toolbox.fs.core.mf.triangular_mf import TriangularMF
+from lfa_toolbox.core.mf.triangular_mf import TriangularMF
 
 
 def test_fuzzification():

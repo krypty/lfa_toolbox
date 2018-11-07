@@ -1,7 +1,7 @@
-from lfa_toolbox.fs.core.mf.lin_piece_wise_mf import gen_line
+from lfa_toolbox.core.mf.lin_piece_wise_mf import gen_line
 
 
-def test_n_points_set_to_zero_should_return_emty_lists():
+def test_n_points_set_to_zero_should_return_empty_lists():
     xs, ys = gen_line(p0=[1, 0], p1=[10, 0], n_points=0)
 
     assert len(xs) == 0

@@ -1,7 +1,7 @@
 from abc import ABCMeta
 from typing import Dict
 
-from lfa_toolbox.fs.core.mf.free_shape_mf import FreeShapeMF
+from lfa_toolbox.core.mf.free_shape_mf import FreeShapeMF
 
 
 class LinguisticVariable(metaclass=ABCMeta):

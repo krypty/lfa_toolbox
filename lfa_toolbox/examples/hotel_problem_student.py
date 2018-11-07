@@ -1,12 +1,12 @@
 import numpy as np
 
-from lfa_toolbox.fs.core.fis.fis import FIS, OR_max, COA_func, MIN, AND_min
-from lfa_toolbox.fs.core.lv.linguistic_variable import LinguisticVariable
-from lfa_toolbox.fs.core.mf.lin_piece_wise_mf import LinPWMF
-from lfa_toolbox.fs.core.rules.default_fuzzy_rule import DefaultFuzzyRule
-from lfa_toolbox.fs.core.rules.fuzzy_rule import FuzzyRule
-from lfa_toolbox.fs.core.rules.fuzzy_rule_element import Consequent, Antecedent
-from lfa_toolbox.fs.view.fis_viewer import FISViewer
+from lfa_toolbox.core.fis.fis import FIS, OR_max, COA_func, MIN, AND_min
+from lfa_toolbox.core.lv.linguistic_variable import LinguisticVariable
+from lfa_toolbox.core.mf.lin_piece_wise_mf import LinPWMF
+from lfa_toolbox.core.rules.default_fuzzy_rule import DefaultFuzzyRule
+from lfa_toolbox.core.rules.fuzzy_rule import FuzzyRule
+from lfa_toolbox.core.rules.fuzzy_rule_element import Consequent, Antecedent
+from lfa_toolbox.view.fis_viewer import FISViewer
 
 
 def hotel_problem():

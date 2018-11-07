@@ -1,4 +1,4 @@
-from lfa_toolbox.fs.core.mf.singleton_mf import SingletonMF
+from lfa_toolbox.core.mf.singleton_mf import SingletonMF
 
 
 def test_fuzzification():

@@ -1,8 +1,8 @@
 from collections import defaultdict
 from typing import Dict, List, Callable, Tuple
 
-from lfa_toolbox.fs.core.mf.free_shape_mf import FreeShapeMF
-from lfa_toolbox.fs.core.rules.fuzzy_rule_element import Antecedent, Consequent
+from lfa_toolbox.core.mf.free_shape_mf import FreeShapeMF
+from lfa_toolbox.core.rules.fuzzy_rule_element import Antecedent, Consequent
 
 
 class FuzzyRule:

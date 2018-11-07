@@ -3,10 +3,10 @@ from itertools import zip_longest, chain
 from matplotlib import pyplot as plt
 from matplotlib.pyplot import savefig
 
-from lfa_toolbox.fs.core.fis.fis import FIS
-from lfa_toolbox.fs.core.rules.default_fuzzy_rule import DefaultFuzzyRule
-from lfa_toolbox.fs.core.rules.fuzzy_rule import FuzzyRule
-from lfa_toolbox.fs.view.mf_viewer import MembershipFunctionViewer
+from lfa_toolbox.core.fis.fis import FIS
+from lfa_toolbox.core.rules.default_fuzzy_rule import DefaultFuzzyRule
+from lfa_toolbox.core.rules.fuzzy_rule import FuzzyRule
+from lfa_toolbox.view.mf_viewer import MembershipFunctionViewer
 
 ANTECEDENTS_BACKGROUND_COLOR = (0.95, 0.95, 0.95)
 CONSEQUENTS_BACKGROUND_COLOR = "white"

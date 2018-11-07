@@ -12,7 +12,7 @@ from lfa_toolbox.examples.car_problem_slides.car_problem_mamdani import (
 from lfa_toolbox.examples.car_problem_slides.car_problem_singleton import (
     car_accel_problem as cap_singleton,
 )
-from lfa_toolbox.fs.view.fis_surface import show_surface
+from lfa_toolbox.view.fis_surface import show_surface
 
 
 def main():

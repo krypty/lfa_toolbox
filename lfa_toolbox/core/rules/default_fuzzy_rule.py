@@ -1,7 +1,7 @@
 from typing import List, Callable, Tuple
 
-from lfa_toolbox.fs.core.rules.fuzzy_rule import FuzzyRule
-from lfa_toolbox.fs.core.rules.fuzzy_rule_element import Consequent
+from lfa_toolbox.core.rules.fuzzy_rule import FuzzyRule
+from lfa_toolbox.core.rules.fuzzy_rule_element import Consequent
 
 
 class DefaultFuzzyRule(FuzzyRule):

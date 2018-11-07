@@ -1,6 +1,6 @@
 import pytest
 
-from lfa_toolbox.fs.core.labels.fuzzy_labels_generator import \
+from lfa_toolbox.core.labels.fuzzy_labels_generator import \
     FuzzyLabelsGenerator
 
 

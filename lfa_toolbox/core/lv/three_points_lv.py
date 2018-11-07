@@ -1,4 +1,4 @@
-from lfa_toolbox.fs.core.lv.p_points_lv import PPointsLV
+from lfa_toolbox.core.lv.p_points_lv import PPointsLV
 
 
 class ThreePointsLV(PPointsLV):

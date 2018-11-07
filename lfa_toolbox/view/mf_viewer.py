@@ -1,9 +1,9 @@
 from matplotlib.ticker import MaxNLocator
 
-from lfa_toolbox.fs.core.mf.free_shape_mf import FreeShapeMF
-from lfa_toolbox.fs.core.mf.lin_piece_wise_mf import LinPWMF
-from lfa_toolbox.fs.core.mf.singleton_mf import SingletonMF
-from lfa_toolbox.fs.view.viewer import Viewer
+from lfa_toolbox.core.mf.free_shape_mf import FreeShapeMF
+from lfa_toolbox.core.mf.lin_piece_wise_mf import LinPWMF
+from lfa_toolbox.core.mf.singleton_mf import SingletonMF
+from lfa_toolbox.view.viewer import Viewer
 
 
 class MembershipFunctionViewer(Viewer):

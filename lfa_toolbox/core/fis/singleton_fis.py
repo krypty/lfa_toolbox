@@ -2,11 +2,11 @@ import sys
 from itertools import chain
 from typing import List
 
-from lfa_toolbox.fs.core.fis.fis import FIS
-from lfa_toolbox.fs.core.mf.free_shape_mf import FreeShapeMF
-from lfa_toolbox.fs.core.mf.singleton_mf import SingletonMF
-from lfa_toolbox.fs.core.rules.default_fuzzy_rule import DefaultFuzzyRule
-from lfa_toolbox.fs.core.rules.fuzzy_rule import FuzzyRule
+from lfa_toolbox.core.fis.fis import FIS
+from lfa_toolbox.core.mf.free_shape_mf import FreeShapeMF
+from lfa_toolbox.core.mf.singleton_mf import SingletonMF
+from lfa_toolbox.core.rules.default_fuzzy_rule import DefaultFuzzyRule
+from lfa_toolbox.core.rules.fuzzy_rule import FuzzyRule
 
 
 class SingletonFIS(FIS):

@@ -1,7 +1,7 @@
-from lfa_toolbox.fs.core.lv.linguistic_variable import LinguisticVariable
-from lfa_toolbox.fs.core.mf.lin_piece_wise_mf import LinPWMF
-from lfa_toolbox.fs.view.mf_viewer import MembershipFunctionViewer
-from lfa_toolbox.fs.view.viewer import Viewer
+from lfa_toolbox.core.lv.linguistic_variable import LinguisticVariable
+from lfa_toolbox.core.mf.lin_piece_wise_mf import LinPWMF
+from lfa_toolbox.view.mf_viewer import MembershipFunctionViewer
+from lfa_toolbox.view.viewer import Viewer
 
 
 class LinguisticVariableViewer(Viewer):

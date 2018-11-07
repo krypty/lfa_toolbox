@@ -1,7 +1,7 @@
 import numpy as np
 
-from lfa_toolbox.fs.core.mf.free_shape_mf import FreeShapeMF
-from lfa_toolbox.fs.view.mf_viewer import MembershipFunctionViewer
+from lfa_toolbox.core.mf.free_shape_mf import FreeShapeMF
+from lfa_toolbox.view.mf_viewer import MembershipFunctionViewer
 
 
 class GaussianMF(FreeShapeMF):

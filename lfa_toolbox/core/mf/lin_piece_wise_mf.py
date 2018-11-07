@@ -1,6 +1,6 @@
 import numpy as np
 
-from lfa_toolbox.fs.core.mf.free_shape_mf import FreeShapeMF
+from lfa_toolbox.core.mf.free_shape_mf import FreeShapeMF
 
 
 def gen_line(p0, p1, n_points):

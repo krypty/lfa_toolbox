@@ -1,12 +1,12 @@
 import numpy as np
 
-from lfa_toolbox.fs.core.fis.fis import COA_func, MIN, FIS, AND_min
-from lfa_toolbox.fs.core.lv.linguistic_variable import LinguisticVariable
-from lfa_toolbox.fs.core.mf.gaussian_mf import GaussianMF
-from lfa_toolbox.fs.core.mf.lin_piece_wise_mf import LinPWMF
-from lfa_toolbox.fs.core.rules.fuzzy_rule import FuzzyRule
-from lfa_toolbox.fs.core.rules.fuzzy_rule_element import Antecedent, Consequent
-from lfa_toolbox.fs.view.fis_viewer import FISViewer
+from lfa_toolbox.core.fis.fis import COA_func, MIN, FIS, AND_min
+from lfa_toolbox.core.lv.linguistic_variable import LinguisticVariable
+from lfa_toolbox.core.mf.gaussian_mf import GaussianMF
+from lfa_toolbox.core.mf.lin_piece_wise_mf import LinPWMF
+from lfa_toolbox.core.rules.fuzzy_rule import FuzzyRule
+from lfa_toolbox.core.rules.fuzzy_rule_element import Antecedent, Consequent
+from lfa_toolbox.view.fis_viewer import FISViewer
 
 
 def tip_problem():

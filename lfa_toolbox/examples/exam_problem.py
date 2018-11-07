@@ -1,11 +1,11 @@
 import numpy as np
 
-from lfa_toolbox.fs.core.fis.fis import FIS, OR_max, AND_min, COA_func, MIN
-from lfa_toolbox.fs.core.lv.linguistic_variable import LinguisticVariable
-from lfa_toolbox.fs.core.mf.lin_piece_wise_mf import LinPWMF
-from lfa_toolbox.fs.core.rules.fuzzy_rule import FuzzyRule
-from lfa_toolbox.fs.core.rules.fuzzy_rule_element import Antecedent, Consequent
-from lfa_toolbox.fs.view.fis_surface import show_surface
+from lfa_toolbox.core.fis.fis import OR_max, AND_min, MIN, FIS, COA_func
+from lfa_toolbox.core.lv.linguistic_variable import LinguisticVariable
+from lfa_toolbox.core.mf.lin_piece_wise_mf import LinPWMF
+from lfa_toolbox.core.rules.fuzzy_rule import FuzzyRule
+from lfa_toolbox.core.rules.fuzzy_rule_element import Antecedent, Consequent
+from lfa_toolbox.view.fis_surface import show_surface
 
 """
 The outputs come from external_references/SANTAMARIA_LFA_LABO4-5/Labo-5.

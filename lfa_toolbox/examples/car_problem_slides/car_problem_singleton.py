@@ -1,11 +1,11 @@
-from lfa_toolbox.fs.core.fis.fis import AND_min, MIN
-from lfa_toolbox.fs.core.fis.singleton_fis import SingletonFIS
-from lfa_toolbox.fs.core.lv.linguistic_variable import LinguisticVariable
-from lfa_toolbox.fs.core.mf.lin_piece_wise_mf import LinPWMF
-from lfa_toolbox.fs.core.mf.singleton_mf import SingletonMF
-from lfa_toolbox.fs.core.rules.fuzzy_rule import FuzzyRule
-from lfa_toolbox.fs.core.rules.fuzzy_rule_element import Antecedent, Consequent
-from lfa_toolbox.fs.view.fis_surface import show_surface
+from lfa_toolbox.core.fis.fis import AND_min, MIN
+from lfa_toolbox.core.fis.singleton_fis import SingletonFIS
+from lfa_toolbox.core.lv.linguistic_variable import LinguisticVariable
+from lfa_toolbox.core.mf.lin_piece_wise_mf import LinPWMF
+from lfa_toolbox.core.mf.singleton_mf import SingletonMF
+from lfa_toolbox.core.rules.fuzzy_rule import FuzzyRule
+from lfa_toolbox.core.rules.fuzzy_rule_element import Antecedent, Consequent
+from lfa_toolbox.view.fis_surface import show_surface
 
 
 def car_accel_problem():

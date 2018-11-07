@@ -4,9 +4,9 @@ from typing import List, Callable, Tuple
 
 import numpy as np
 
-from lfa_toolbox.fs.core.mf.free_shape_mf import FreeShapeMF
-from lfa_toolbox.fs.core.rules.default_fuzzy_rule import DefaultFuzzyRule
-from lfa_toolbox.fs.core.rules.fuzzy_rule import FuzzyRule
+from lfa_toolbox.core.mf.free_shape_mf import FreeShapeMF
+from lfa_toolbox.core.rules.default_fuzzy_rule import DefaultFuzzyRule
+from lfa_toolbox.core.rules.fuzzy_rule import FuzzyRule
 
 COA_func = (lambda v, m: np.sum(np.multiply(v, m)) / np.sum(m), "COA_func")
 OR_max = (np.max, "OR_max")

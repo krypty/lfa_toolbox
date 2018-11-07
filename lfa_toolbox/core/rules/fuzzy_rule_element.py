@@ -1,4 +1,4 @@
-from lfa_toolbox.fs.core.lv.linguistic_variable import LinguisticVariable
+from lfa_toolbox.core.lv.linguistic_variable import LinguisticVariable
 
 
 class FuzzyRuleElement:

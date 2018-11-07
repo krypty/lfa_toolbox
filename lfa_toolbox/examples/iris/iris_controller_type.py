@@ -2,14 +2,14 @@ import os
 
 import numpy as np
 
-from lfa_toolbox.fs.core.fis.fis import MIN, AND_min
-from lfa_toolbox.fs.core.fis.singleton_fis import SingletonFIS
-from lfa_toolbox.fs.core.lv.linguistic_variable import LinguisticVariable
-from lfa_toolbox.fs.core.lv.three_points_lv import ThreePointsLV
-from lfa_toolbox.fs.core.mf.singleton_mf import SingletonMF
-from lfa_toolbox.fs.core.rules.default_fuzzy_rule import DefaultFuzzyRule
-from lfa_toolbox.fs.core.rules.fuzzy_rule import FuzzyRule
-from lfa_toolbox.fs.core.rules.fuzzy_rule_element import Antecedent, Consequent
+from lfa_toolbox.core.fis.fis import MIN, AND_min
+from lfa_toolbox.core.fis.singleton_fis import SingletonFIS
+from lfa_toolbox.core.lv.linguistic_variable import LinguisticVariable
+from lfa_toolbox.core.lv.three_points_lv import ThreePointsLV
+from lfa_toolbox.core.mf.singleton_mf import SingletonMF
+from lfa_toolbox.core.rules.default_fuzzy_rule import DefaultFuzzyRule
+from lfa_toolbox.core.rules.fuzzy_rule import FuzzyRule
+from lfa_toolbox.core.rules.fuzzy_rule_element import Antecedent, Consequent
 
 SETOSA = "setosa"
 VERSICOLOR = "versicolor"
