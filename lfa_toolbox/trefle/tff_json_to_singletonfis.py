@@ -2,13 +2,14 @@ import json
 
 from lfa_toolbox.fs.core.fis.fis import MIN, AND_min
 from lfa_toolbox.fs.core.fis.singleton_fis import SingletonFIS
+from lfa_toolbox.fs.core.labels.fuzzy_labels_generator import \
+    FuzzyLabelsGenerator
 from lfa_toolbox.fs.core.lv.linguistic_variable import LinguisticVariable
 from lfa_toolbox.fs.core.lv.p_points_lv import PPointsLV
 from lfa_toolbox.fs.core.mf.singleton_mf import SingletonMF
 from lfa_toolbox.fs.core.rules.default_fuzzy_rule import DefaultFuzzyRule
 from lfa_toolbox.fs.core.rules.fuzzy_rule import FuzzyRule
 from lfa_toolbox.fs.core.rules.fuzzy_rule_element import Antecedent, Consequent
-from lfa_toolbox.fs.core.labels.fuzzy_labels_generator import generate_labels
 
 
 class TffJsonToSingletonFIS:
@@ -21,14 +22,14 @@ class TffJsonToSingletonFIS:
     def convert(self):
         self._ensure_version()
 
-        labels = generate_labels(n_labels=self._jfis["n_labels"])
+        labels = FuzzyLabelsGenerator.generate(n_labels=self._jfis["n_labels"])
 
         cons_labels = []
         for n_labels, k_classes in zip(
             self._jfis["n_labels_per_cons"], self._jfis["n_classes_per_cons"]
         ):
             if k_classes == 0:
-                cons_labels.append(generate_labels(n_labels))
+                cons_labels.append(FuzzyLabelsGenerator.generate(n_labels))
             else:
                 cons_labels.append(list(range(n_labels)))
 
@@ -73,7 +74,7 @@ class TffJsonToSingletonFIS:
             # n_classes = 0 --> regression, so use fuzzy labels
             if n_classes_per_cons[i] == 0:
                 p_points = self._scale_back_cons(n_label, cons_range)
-                labels = generate_labels(n_label)
+                labels = FuzzyLabelsGenerator.generate(n_label)
             else:
                 p_points = range(n_label)
                 labels = range(n_label)

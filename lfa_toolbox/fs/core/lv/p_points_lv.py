@@ -1,7 +1,7 @@
+from lfa_toolbox.fs.core.labels.fuzzy_labels_generator import FuzzyLabelsGenerator
 from lfa_toolbox.fs.core.lv.linguistic_variable import LinguisticVariable
 from lfa_toolbox.fs.core.mf.lin_piece_wise_mf import LinPWMF
 from lfa_toolbox.fs.view.lv_viewer import LinguisticVariableViewer
-from lfa_toolbox.fs.core.labels.fuzzy_labels_generator import generate_labels
 
 
 class PPointsLV(LinguisticVariable):
@@ -34,7 +34,7 @@ class PPointsLV(LinguisticVariable):
         if p_points != sorted(p_points):
             raise ValueError("p_points must be increasing values")
 
-        labels = generate_labels(len(p_points))
+        labels = FuzzyLabelsGenerator.generate(len(p_points))
         mfs = self._create_mfs(p_points)
 
         ling_values_dict = {label: lv for label, lv in zip(labels, mfs)}
