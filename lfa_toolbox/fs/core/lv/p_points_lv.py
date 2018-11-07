@@ -1,7 +1,7 @@
-from lfa_toolbox.evo.helpers.fuzzy_labels_generator import generate_labels
 from lfa_toolbox.fs.core.lv.linguistic_variable import LinguisticVariable
 from lfa_toolbox.fs.core.mf.lin_piece_wise_mf import LinPWMF
 from lfa_toolbox.fs.view.lv_viewer import LinguisticVariableViewer
+from lfa_toolbox.fs.core.labels.fuzzy_labels_generator import generate_labels
 
 
 class PPointsLV(LinguisticVariable):

@@ -8,7 +8,7 @@ from lfa_toolbox.fs.core.mf.singleton_mf import SingletonMF
 from lfa_toolbox.fs.core.rules.default_fuzzy_rule import DefaultFuzzyRule
 from lfa_toolbox.fs.core.rules.fuzzy_rule import FuzzyRule
 from lfa_toolbox.fs.core.rules.fuzzy_rule_element import Antecedent, Consequent
-from lfa_toolbox.trefle.fuzzy_labels_generator import generate_labels
+from lfa_toolbox.fs.core.labels.fuzzy_labels_generator import generate_labels
 
 
 class TffJsonToSingletonFIS:

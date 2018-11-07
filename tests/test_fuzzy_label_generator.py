@@ -1,6 +1,6 @@
 import pytest
 
-from lfa_toolbox.trefle.fuzzy_labels_generator import generate_labels
+from lfa_toolbox.fs.core.labels.fuzzy_labels_generator import generate_labels
 
 
 def test_generate_less_than_2_labels_should_fail():
