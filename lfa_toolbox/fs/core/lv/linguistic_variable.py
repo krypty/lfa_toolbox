@@ -1,8 +1,7 @@
 from abc import ABCMeta
 from typing import Dict
 
-from lfa_toolbox.fs.core.mf.free_shape_mf import \
-    FreeShapeMF
+from lfa_toolbox.fs.core.mf.free_shape_mf import FreeShapeMF
 
 
 class LinguisticVariable(metaclass=ABCMeta):
@@ -52,12 +51,13 @@ class LinguisticVariable(metaclass=ABCMeta):
         return self._ling_values_dict[ling_value]
 
     def __str__(self):
-        return "Name: {}, values: {}".format(self.name,
-                                             self._ling_values_dict.keys())
+        return "Name: {}, values: {}".format(self.name, self._ling_values_dict.keys())
 
     def _compute_in_range(self):
-        a = [[min(mf.in_values), max(mf.in_values)] for mf in
-             self._ling_values_dict.values()]
+        min_max_pairs = [
+            [min(mf.in_values), max(mf.in_values)]
+            for mf in self._ling_values_dict.values()
+        ]
 
-        in_min, in_max = zip(*a)
+        in_min, in_max = zip(*min_max_pairs)
         return min(in_min), max(in_max)
