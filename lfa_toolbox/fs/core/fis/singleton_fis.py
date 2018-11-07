@@ -9,19 +9,6 @@ from lfa_toolbox.fs.core.rules.default_fuzzy_rule import DefaultFuzzyRule
 from lfa_toolbox.fs.core.rules.fuzzy_rule import FuzzyRule
 
 
-def are_all_consequents_singleton(rules: List[FuzzyRule]):
-    def show_error(name):
-        print("{} is not a SingletonMF".format(name), file=sys.stderr)
-
-    for r in rules:
-        for cons in r.consequents:
-            for lv_name, lv_value in cons.lv_name.ling_values.items():
-                if not isinstance(lv_value, SingletonMF):
-                    show_error(cons.lv_name.name)
-                    return False
-    return True
-
-
 class SingletonFIS(FIS):
     def __init__(self, rules: List[FuzzyRule], default_rule: DefaultFuzzyRule = None):
         """
@@ -34,9 +21,8 @@ class SingletonFIS(FIS):
         :param default_rule: see FIS docstring
         """
 
-        assert are_all_consequents_singleton(
-            rules
-        ), "All consequents must be singleton when using a SingletonFIS"
+        if not self._are_all_consequents_singleton(rules):
+            print("All consequents must be singleton when using a SingletonFIS")
 
         super(SingletonFIS, self).__init__(
             aggr_func=None, defuzz_func=None, rules=rules, default_rule=default_rule
@@ -64,7 +50,6 @@ class SingletonFIS(FIS):
                 numerator += cons_implicated_value * rule_act_value
                 denominator += cons_implicated_value
 
-            # TODO: replace FreeShapeMF by lighter data structure for singl. fis
             aggregated_consequents[out_v_name] = FreeShapeMF(
                 in_values=[numerator / float(denominator)], mf_values=[1]
             )
@@ -82,3 +67,16 @@ class SingletonFIS(FIS):
         consequents_it = enumerate(rule.consequents)
         index = [i for i, cons in consequents_it if cons.lv_name.name == out_v_name][0]
         return rule.consequents[index]
+
+    @staticmethod
+    def _are_all_consequents_singleton(rules: List[FuzzyRule]):
+        def show_error(name):
+            print("{} is not a SingletonMF".format(name), file=sys.stderr)
+
+        for r in rules:
+            for cons in r.consequents:
+                for lv_name, lv_value in cons.lv_name.ling_values.items():
+                    if not isinstance(lv_value, SingletonMF):
+                        show_error(cons.lv_name.name)
+                        return False
+        return True
