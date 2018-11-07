@@ -50,11 +50,11 @@ class SingletonFIS(FIS):
             denominator = 0
 
             for i, rule in enumerate(chain(self._rules, [self._default_rule])):
-                cons = self._get_consequent_from_out_var_name(rule, out_v_name)
-
                 # TODO: refactor this to better handle default rule
                 if rule is None:  # happen if default rule is not set.
                     continue
+
+                cons = self._get_consequent_from_out_var_name(rule, out_v_name)
 
                 cons_implicated_value = out_v_mf[i].mf_values[0]
                 label = cons.lv_value
