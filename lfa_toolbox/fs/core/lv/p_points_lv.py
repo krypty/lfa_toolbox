@@ -1,7 +1,6 @@
 from lfa_toolbox.fs.core.labels.fuzzy_labels_generator import FuzzyLabelsGenerator
 from lfa_toolbox.fs.core.lv.linguistic_variable import LinguisticVariable
 from lfa_toolbox.fs.core.mf.lin_piece_wise_mf import LinPWMF
-from lfa_toolbox.fs.view.lv_viewer import LinguisticVariableViewer
 
 
 class PPointsLV(LinguisticVariable):
@@ -48,11 +47,3 @@ class PPointsLV(LinguisticVariable):
             p_args = [[j, k] for j, k in zip(p_points, mf_values)]
             p_args[i][1] = 1
             yield LinPWMF(*p_args)
-
-
-if __name__ == "__main__":
-
-    name = "yolo"
-    a = [1.1, 4.4, 33]
-    lv = PPointsLV(name, a)
-    LinguisticVariableViewer(lv).show()
