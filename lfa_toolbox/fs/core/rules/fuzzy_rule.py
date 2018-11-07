@@ -1,5 +1,4 @@
 from collections import defaultdict
-from copy import deepcopy
 from typing import Dict, List, Callable, Tuple
 
 from lfa_toolbox.fs.core.mf.free_shape_mf import FreeShapeMF
@@ -111,7 +110,7 @@ class FuzzyRule:
             # the linguistic variable "temperature".
             ling_value = con.lv_name[con.lv_value]
 
-            in_values = deepcopy(ling_value.in_values)  # FIXME deepcopy needed?
+            in_values = ling_value.in_values[:]
             mf_values = [
                 impl_func([val, antecedents_activation]) for val in ling_value.mf_values
             ]
