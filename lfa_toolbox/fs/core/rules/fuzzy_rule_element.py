@@ -1,10 +1,8 @@
-from lfa_toolbox.fs.core.lv.linguistic_variable import \
-    LinguisticVariable
+from lfa_toolbox.fs.core.lv.linguistic_variable import LinguisticVariable
 
 
 class FuzzyRuleElement:
-    def __init__(self, lv_name: LinguisticVariable, lv_value: str,
-                 is_not=False):
+    def __init__(self, lv_name: LinguisticVariable, lv_value: str, is_not=False):
         """
         Define a fuzzy rule element that can be either an antecedent or a
         consequent
@@ -34,6 +32,7 @@ class Antecedent(FuzzyRuleElement):
     """
     Syntactic sugar for FuzzyRuleElement
     """
+
     pass
 
 
