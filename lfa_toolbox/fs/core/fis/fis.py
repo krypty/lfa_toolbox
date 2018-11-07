@@ -27,6 +27,15 @@ def must_use_predict_before(func):
     return wrapper
 
 
+class RuleActivationRange:
+    """
+    A rule activation is valid between the range MIN and MAX
+    """
+
+    MIN = 0.0
+    MAX = 1.0
+
+
 class FIS(metaclass=ABCMeta):
     def __init__(
         self,
@@ -41,20 +50,25 @@ class FIS(metaclass=ABCMeta):
         caller (you). All rules have the same weight.
 
         :param aggr_func: aggregation function. Can be any function that takes
-        lists of floats and returns a list of float. Most of the time, numpy.max
+        lists of floats and returns a float. Most of the time, numpy.max
         is the function you want to use.
 
         :param defuzz_func: defuzzification function. Can be any
         Tuple[Callable, str] object. Callable is the defuzzification function
         and str is a user-defined label. The signature of the defuzzification
-        function must be like f(v, m) where v is XXX and m is XXX                    <-- FIXME
+        function must be like f(v, m) where v are the rules activation and m
+        are consequent values. For example, the rule r0 is fully activated so
+        v[0] = 1.0 and r1 is only half activated so v[1] = 0.5. The consequent
+        for the first rule was "then out is HIGH(100)" and for the second rule
+        it was "then out is LOW(0)". Let's say that f() implements the COA
+        defuzzification method then the output is "(1.0*100 + 0.5*0)/(1.0+0.5)".
         Pre-defined defuzzification functions are already implemented in
         this class such as COA_func.
 
         :param rules: List of FuzzyRule. It supports rules with multiples
         consequents as long as all rules use each defined consequent. For
         example it is invalid to have the first rule with 1 consequent and the
-        other with 2. The caller (you) must take care of this himself.
+        other with 2. The caller (you) must take care of this by theirself.
 
         :param default_rule: if desired, a default rule can be set
         """
@@ -114,7 +128,7 @@ class FIS(metaclass=ABCMeta):
         rules_implicated_cons = defaultdict(list)
 
         # initial value can be set to 0 because activation values are in [0, 1]
-        max_ant_act = 0
+        max_ant_act = RuleActivationRange.MIN
 
         # Fuzzify and activate inputs then implicate consequents for each rule
         for r in self._rules:
@@ -122,27 +136,29 @@ class FIS(metaclass=ABCMeta):
             antecedents_activation = r.activate(fuzzified_inputs)
             max_ant_act = max(max_ant_act, antecedents_activation)
             implicated_consequents = r.implicate(antecedents_activation)
-            # print(r)
 
             for lv_name, lv_impl_mf in implicated_consequents.items():
                 rules_implicated_cons[lv_name].extend(lv_impl_mf)
-                # rules_implicated_cons.append(implicated_consequents)
 
-                # grouped by rules
-        self._implicated_consequents = rules_implicated_cons
-
-        # Handle default rule
-        if self._default_rule is not None:
-            act_value = 1.0 - max_ant_act
-            implicated_consequents = self._default_rule.implicate(act_value)
-            for lv_name, lv_impl_mf in implicated_consequents.items():
-                self._implicated_consequents[lv_name].extend(lv_impl_mf)
+        self._handle_default_rule(max_ant_act, rules_implicated_cons)
 
         # Aggregate consequents
         self._aggregated_consequents = self._aggregate(rules_implicated_cons)
 
+        # save implicated consequents to use it in the visualizations
+        self._implicated_consequents = rules_implicated_cons
+
         # Defuzzify
         return self._defuzzify()
+
+    def _handle_default_rule(self, max_ant_act, rules_implicated_cons):
+        if self._default_rule is None:
+            return
+
+        act_value = RuleActivationRange.MAX - max_ant_act
+        implicated_consequents = self._default_rule.implicate(act_value)
+        for lv_name, lv_impl_mf in implicated_consequents.items():
+            rules_implicated_cons[lv_name].extend(lv_impl_mf)
 
     def _aggregate(self, rules_implicated_cons):
         """
@@ -161,7 +177,7 @@ class FIS(metaclass=ABCMeta):
     def _aggregate_cons(self, *out_var_mf):
         """
         Aggregate a given consequent (represented by one or more membership
-        function) together.
+        functions) together.
 
         :param out_var_mf: a list of membership functions for a given output
         variable.
