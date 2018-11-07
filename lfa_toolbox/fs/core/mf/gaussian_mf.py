@@ -1,7 +1,6 @@
 import numpy as np
 
-from lfa_toolbox.fs.core.mf.free_shape_mf import \
-    FreeShapeMF
+from lfa_toolbox.fs.core.mf.free_shape_mf import FreeShapeMF
 from lfa_toolbox.fs.view.mf_viewer import MembershipFunctionViewer
 
 
@@ -44,11 +43,10 @@ class GaussianMF(FreeShapeMF):
         :param v: variance i.e. sigma*sigma
         :return: gaussian value of x
         """
-        return (1.0 / (np.sqrt(2.0 * np.pi * v))) * np.exp(
-            -((x - mu) ** 2) / (2 * v))
+        return (1.0 / (np.sqrt(2.0 * np.pi * v))) * np.exp(-((x - mu) ** 2) / (2 * v))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     mf = GaussianMF(mu=30, sigma=4)
     MembershipFunctionViewer(mf).show()
     print(mf.fuzzify(0))
