@@ -1,17 +1,11 @@
-from lfa_toolbox.fs.core.lv.linguistic_variable import \
-    LinguisticVariable
-from lfa_toolbox.fs.core.mf.lin_piece_wise_mf import \
-    LinPWMF
+from lfa_toolbox.fs.core.lv.linguistic_variable import LinguisticVariable
+from lfa_toolbox.fs.core.mf.lin_piece_wise_mf import LinPWMF
 from lfa_toolbox.fs.view.mf_viewer import MembershipFunctionViewer
 from lfa_toolbox.fs.view.viewer import Viewer
 
 
 class LinguisticVariableViewer(Viewer):
-    def __init__(self, lv, ax=None):
-        """
-
-        :type lv: LinguisticVariable
-        """
+    def __init__(self, lv: LinguisticVariable, ax=None):
         super(LinguisticVariableViewer, self).__init__(ax)
         self.__lv = lv
 
@@ -34,17 +28,20 @@ class LinguisticVariableViewer(Viewer):
         return viewers
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     from matplotlib import pyplot as plt
 
     fig, axs = plt.subplots(3, figsize=(12, 8))
 
     for ax in axs:
-        lv_temp = LinguisticVariable(name="temperature", ling_values_dict={
-            "cold": LinPWMF([17, 1], [20, 0]),
-            "warm": LinPWMF([17, 0], [20, 1], [26, 1], [29, 0]),
-            "hot": LinPWMF([26, 0], [29, 1])
-        })
+        lv_temp = LinguisticVariable(
+            name="temperature",
+            ling_values_dict={
+                "cold": LinPWMF([17, 1], [20, 0]),
+                "warm": LinPWMF([17, 0], [20, 1], [26, 1], [29, 0]),
+                "hot": LinPWMF([26, 0], [29, 1]),
+            },
+        )
         viewer = LinguisticVariableViewer(lv_temp, ax=ax)
         viewer.fuzzify(26.6)
         viewer.fuzzify(21.8)

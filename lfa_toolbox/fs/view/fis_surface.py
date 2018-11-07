@@ -2,16 +2,27 @@ import numpy as np
 from matplotlib import cm
 from matplotlib import pyplot as plt
 from matplotlib.ticker import MaxNLocator
+
 # noinspection PyUnresolvedReferences
 from mpl_toolkits.mplot3d import Axes3D
 
 
-def show_surface(fis, x_label, y_label, z_label, n_pts=25, x_range=None,
-                 y_range=None, z_range=None, ax=None, title=None,
-                 other_labels=None):
+def show_surface(
+    fis,
+    x_label,
+    y_label,
+    z_label,
+    n_pts=25,
+    x_range=None,
+    y_range=None,
+    z_range=None,
+    ax=None,
+    title=None,
+    other_labels=None,
+):
     if ax is None:
         fig = plt.figure(figsize=(4, 8))
-        _ax = fig.gca(projection='3d')
+        _ax = fig.gca(projection="3d")
     else:
         _ax = ax
 
@@ -40,8 +51,7 @@ def show_surface(fis, x_label, y_label, z_label, n_pts=25, x_range=None,
     v_out = f_vect(X, Y)
 
     # Plot the surface.
-    surf = _ax.plot_surface(X, Y, v_out, cmap=cm.viridis,
-                            linewidth=0, antialiased=True)
+    _ax.plot_surface(X, Y, v_out, cmap=cm.viridis, linewidth=0, antialiased=True)
 
     # Customize the z axis.
     _ax.set_xlabel(x_label)

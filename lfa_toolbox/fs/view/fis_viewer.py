@@ -30,9 +30,7 @@ class FISViewer:
         if figsize is None:
             figsize = (3 * ncols, 2 * nrows)
 
-        fig, self._axarr = plt.subplots(ncols=ncols,
-                                        nrows=nrows,
-                                        figsize=figsize)
+        fig, self._axarr = plt.subplots(ncols=ncols, nrows=nrows, figsize=figsize)
 
         if self._has_predicted:
             plt.suptitle(self._describe_fis())
@@ -49,9 +47,13 @@ class FISViewer:
 
         for line, r in enumerate(chain(fis.rules, [fis.default_rule])):
             if r is not None:
-                self._create_rule_plot(r, ax_line=self._axarr[line, :],
-                                       max_ants=max_ants, max_cons=max_cons,
-                                       rule_index=line)
+                self._create_rule_plot(
+                    r,
+                    ax_line=self._axarr[line, :],
+                    max_ants=max_ants,
+                    max_cons=max_cons,
+                    rule_index=line,
+                )
 
         # all columns of consequents share the same x axe per column
         self._plot_rows_cols_labels(self._axarr, max_ants, max_cons)
@@ -66,10 +68,10 @@ class FISViewer:
             ax_default_rule.axis("on")
             ax_default_rule.set_xticks([])
             ax_default_rule.set_yticks([])
-            ax_default_rule.spines['top'].set_visible(False)
-            ax_default_rule.spines['right'].set_visible(False)
-            ax_default_rule.spines['bottom'].set_visible(False)
-            ax_default_rule.spines['left'].set_visible(False)
+            ax_default_rule.spines["top"].set_visible(False)
+            ax_default_rule.spines["right"].set_visible(False)
+            ax_default_rule.spines["bottom"].set_visible(False)
+            ax_default_rule.spines["left"].set_visible(False)
 
     def get_axarr(self):
         return self._axarr
@@ -82,23 +84,22 @@ class FISViewer:
 
     @staticmethod
     def save(filename):
-        savefig(filename, bbox_inches='tight')
+        savefig(filename, bbox_inches="tight")
 
     @staticmethod
     def set_title(title):
         plt.suptitle(title)
 
-    def _create_rule_plot(self, r: FuzzyRule, ax_line, max_ants, max_cons,
-                          rule_index):
+    def _create_rule_plot(self, r: FuzzyRule, ax_line, max_ants, max_cons, rule_index):
         n_rule_members = len(ax_line)
 
         self._plot_ants(ax_line[:max_ants], r.antecedents, n_rule_members)
-        self._plot_cons(ax_line[-max_cons:], r.consequents,
-                        n_rule_members, rule_index)
+        self._plot_cons(ax_line[-max_cons:], r.consequents, n_rule_members, rule_index)
 
     def _plot_ants(self, axarr, antecedents, n_rule_members):
-        for ant, ax, i in zip_longest(antecedents, axarr, range(n_rule_members),
-                                      fillvalue=None):
+        for ant, ax, i in zip_longest(
+            antecedents, axarr, range(n_rule_members), fillvalue=None
+        ):
             if ant is None:
                 continue
 
@@ -113,8 +114,7 @@ class FISViewer:
             not_str = "NOT " if ant.is_not else ""
             label = "[{}] {}{}".format(ant.lv_name.name, not_str, ant.lv_value)
 
-            MembershipFunctionViewer(mf, ax=ax, label=label,
-                                     draw_not=ant.is_not)
+            MembershipFunctionViewer(mf, ax=ax, label=label, draw_not=ant.is_not)
 
             # show last crisp inputs
             try:
@@ -125,8 +125,8 @@ class FISViewer:
                 if ant.is_not:
                     fuzzified = 1.0 - fuzzified
 
-                ax.plot([in_value], [fuzzified], 'ro')
-                ax.plot([in_value, in_value], [0, fuzzified], 'r')
+                ax.plot([in_value], [fuzzified], "ro")
+                ax.plot([in_value, in_value], [0, fuzzified], "r")
             except ValueError:
                 pass
 
@@ -134,9 +134,9 @@ class FISViewer:
         # assumption: each rule has the same number and names of consequents
         sorted_consequents = sorted(consequents, key=lambda c: c.lv_name.name)
 
-        for cons, ax, i in zip_longest(sorted_consequents, axarr,
-                                       range(n_rule_members),
-                                       fillvalue=None):
+        for cons, ax, i in zip_longest(
+            sorted_consequents, axarr, range(n_rule_members), fillvalue=None
+        ):
             # print(cons, ax, i)
             if cons is None:
                 continue
@@ -148,20 +148,22 @@ class FISViewer:
             MembershipFunctionViewer(mf, ax=ax, label=label)
 
             if self._has_predicted:
-                mf_implicated = \
-                    self.__fis.last_implicated_consequents[cons.lv_name.name][
-                        rule_index]
-                mfv = MembershipFunctionViewer(mf_implicated, ax=ax,
-                                               label=label + " implicated")
+                mf_implicated = self.__fis.last_implicated_consequents[
+                    cons.lv_name.name
+                ][rule_index]
+                mfv = MembershipFunctionViewer(
+                    mf_implicated, ax=ax, label=label + " implicated"
+                )
                 mfv.fuzzify(mf_implicated.in_values[0])
 
     def _plot_rows_cols_labels(self, axarr, max_ants, max_cons):
-        col_ants = ['Antecedent {}'.format(col + 1) for col in range(max_ants)]
-        col_cons = ['Consequent {}'.format(col + 1) for col in range(max_cons)]
+        col_ants = ["Antecedent {}".format(col + 1) for col in range(max_ants)]
+        col_cons = ["Consequent {}".format(col + 1) for col in range(max_cons)]
 
         rows = []
-        for rule, row in zip(chain(self.__fis.rules, [self.__fis.default_rule]),
-                             range(axarr.shape[0])):
+        for rule, row in zip(
+            chain(self.__fis.rules, [self.__fis.default_rule]), range(axarr.shape[0])
+        ):
             if isinstance(rule, DefaultFuzzyRule):
                 rows.append("Default rule")
             elif rule is None:
@@ -176,7 +178,7 @@ class FISViewer:
             ax.set_title(col)
 
         for ax, row in zip(axarr[:, 0], rows):
-            ax.set_ylabel(row, rotation=90, size='large')
+            ax.set_ylabel(row, rotation=90, size="large")
             ax.yaxis.set_label_coords(-0.15, 0.5)
 
     def _plot_aggregation(self, cons_index, ax):
@@ -197,8 +199,7 @@ class FISViewer:
             return ""
         else:
             line1 = "crisp values: {}".format(self.__fis._last_crisp_values)
-            line2 = "output values: {}".format(
-                self.__fis.last_defuzzified_outputs)
+            line2 = "output values: {}".format(self.__fis.last_defuzzified_outputs)
             return "\n".join([line1, line2])
 
     def _get_has_predicted(self):
