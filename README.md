@@ -44,17 +44,27 @@ A list of examples can be found here [lfa_toolbox/examples](lfa_toolbox/examples
 
 Here is a output example of the resort problem (available in the examples folder).
 
-# Integration with Trefle
+## Integration with Trefle
 
-**TODO** link to trefle + example of loading tff file + show viewer
-+ example of modification of a rule
+[Trefle](https://github.com/krypty/trefle) is a scikit-learn compatible
+estimator implementing the FuzzyCoCo algorithm that uses a cooperative
+coevolution algorithm to find and build interpretable fuzzy systems.
 
-# Deployment and Tests
+See [Trefle's Github](https://github.com/krypty/trefle) to learn how to
+install it.
+
+Basically after running Trefle you can save the best fuzzy system and fine tune
+it with LFA Toolbox. For example you can change the values of the membership
+functions or remove a too specific fuzzy rule.
+
+See [/lfa_toolbox/examples/import_a_trefle_fuzzy_system.py](/lfa_toolbox/examples/import_a_trefle_fuzzy_system.py) example.
+
+## Deployment and Tests
 
 Both documentations are available in the `docs` folder.
 
 
-# Credits
+## Credits
 
 * Gary Marigliano (developper)
 * Carlos Andrés PEÑA REYES (project manager)
