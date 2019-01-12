@@ -1,5 +1,6 @@
 import numpy as np
 
+from lfa_toolbox.trefle.tffconverter import TffConverter
 from tests.pytest_skip_trefle_tests import run_if_trefle_is_installed
 
 
@@ -22,7 +23,8 @@ def test_binary_problem_predictions_should_be_the_same_between_singleton_fis_and
     X_train, X_test, y_train, y_test = get_sample_data()
     clf = get_trefle_classifier_instance(X_train, X_test, y_train, y_test)
 
-    fis = clf.get_best_fuzzy_system()
+    tff_str = clf.get_best_fuzzy_system_as_tff()
+    fis = TffConverter.to_fis(tff_str)
 
     y_pred = clf.predict_X_test()
     y_pred_legacy = legacy_predict(X_test, fis)

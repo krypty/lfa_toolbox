@@ -1,10 +1,10 @@
 import random
 
 import numpy as np
-from lfa_toolbox.evo.skfuge.trefle_classifier import TrefleClassifier
 from sklearn.datasets import load_iris
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
+from trefle.trefle_classifier import TrefleClassifier
 
 
 def get_sample_data():
@@ -37,9 +37,6 @@ class TrefleClassifierTest:
 
     def predict_X_test(self):
         return self._clf.predict(self._X_test)
-
-    def get_best_fuzzy_system(self):
-        return self._clf.get_best_fuzzy_system()
 
     def get_best_fuzzy_system_as_tff(self):
         return self._clf.get_best_fuzzy_system_as_tff()

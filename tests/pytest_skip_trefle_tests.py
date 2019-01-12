@@ -3,8 +3,7 @@ import pytest
 
 def is_trefle_package_installed():
     try:
-        from pyfuge_c import TrefleFIS
-
+        from trefle_engine import TrefleFIS
         return True
     except ImportError:
         return False

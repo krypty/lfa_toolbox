@@ -1,8 +1,6 @@
 import os
 
-# FIXME
-from pyfuge_c import TrefleFIS
-# from trefle import TrefleFIS
+from trefle_engine import TrefleFIS
 
 from lfa_toolbox.trefle.tff_json_to_singletonfis import TffJsonToSingletonFIS
 
