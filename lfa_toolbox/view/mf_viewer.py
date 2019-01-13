@@ -8,7 +8,8 @@ from lfa_toolbox.view.viewer import Viewer
 
 class MembershipFunctionViewer(Viewer):
     def __init__(
-        self, mf: FreeShapeMF, label="", ax=None, color=None, alpha=None, draw_not=False
+            self, mf: FreeShapeMF, label="", ax=None, color=None, alpha=None,
+            draw_not=False
     ):
         super(MembershipFunctionViewer, self).__init__(ax)
         self._mf = mf
@@ -37,7 +38,8 @@ class MembershipFunctionViewer(Viewer):
         if self._draw_not:
             ys = 1.0 - ys
 
-        ax.scatter(xs, ys, s=5, label=self._label, c=self._color, alpha=self._alpha)
+        ax.scatter(xs, ys, s=5, label=self._label, c=self._color,
+                   alpha=self._alpha)
         ax.plot(xs, ys, c=self._color, alpha=self._alpha)
         ax.set_xlabel(self._label, fontsize="small")
 
